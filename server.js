@@ -6,7 +6,7 @@ const port = 3000;
 
 app.use(express.json());
 
-const Times = [
+const times = [
   { id: 1, nome: "Corinthians ", série: "A" },
   { id: 2, nome: "Palmeiras", série: "A" },
   { id: 3, nome: "Flamengo ",série: "A" },
