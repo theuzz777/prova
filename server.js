@@ -21,7 +21,10 @@ const times = [
   { id: 8, nome: "Santos", serie: "A" }
 ];
 
-
+const alunos = [
+  { id: 1, nome: "Matheus", turma: "3A" },
+  { id: 2, nome: "João", turma: "3B" }
+];
 
 // =========================
 // AUTENTICAÇÃO
@@ -67,7 +70,7 @@ app.get("/times", (req, res) => {
   res.json(times);
 });
 
-// GET - buscar um time pelo ID
+// GET - buscar time pelo ID
 app.get("/times/:id", (req, res) => {
   const id = Number(req.params.id);
 
@@ -82,7 +85,7 @@ app.get("/times/:id", (req, res) => {
   res.json(time);
 });
 
-// POST - cadastrar um novo time
+// POST - cadastrar novo time
 app.post("/times", (req, res) => {
   const { nome, serie } = req.body;
 
@@ -106,8 +109,8 @@ app.post("/times", (req, res) => {
   });
 });
 
-// PATCH - atualizar um time
-app.patch("/times/:id", (req, res) => {
+// PUT - atualizar time
+app.put("/times/:id", (req, res) => {
   const id = Number(req.params.id);
   const { nome, serie } = req.body;
 
@@ -119,13 +122,14 @@ app.patch("/times/:id", (req, res) => {
     });
   }
 
-  if (nome) {
-    time.nome = nome;
+  if (!nome || !serie) {
+    return res.status(400).json({
+      erro: "Nome e série são obrigatórios"
+    });
   }
 
-  if (serie) {
-    time.serie = serie;
-  }
+  time.nome = nome;
+  time.serie = serie;
 
   res.json({
     mensagem: "Time atualizado com sucesso",
@@ -133,7 +137,7 @@ app.patch("/times/:id", (req, res) => {
   });
 });
 
-// DELETE - excluir um time
+// DELETE - excluir time
 app.delete("/times/:id", (req, res) => {
   const id = Number(req.params.id);
 
@@ -156,7 +160,7 @@ app.delete("/times/:id", (req, res) => {
 // ALUNOS
 // =====================================================
 
-// GET - listar todos os alunos
+// GET - listar alunos
 app.get("/alunos", (req, res) => {
   res.json(alunos);
 });
@@ -200,7 +204,7 @@ app.post("/alunos", (req, res) => {
   });
 });
 
-// PATCH - atualizar aluno
+// PUT - atualizar aluno
 app.put("/alunos/:id", (req, res) => {
   const id = Number(req.params.id);
   const { nome, turma } = req.body;
@@ -213,13 +217,14 @@ app.put("/alunos/:id", (req, res) => {
     });
   }
 
-  if (nome) {
-    aluno.nome = nome;
+  if (!nome || !turma) {
+    return res.status(400).json({
+      erro: "Nome e turma são obrigatórios"
+    });
   }
 
-  if (turma) {
-    aluno.turma = turma;
-  }
+  aluno.nome = nome;
+  aluno.turma = turma;
 
   res.json({
     mensagem: "Aluno atualizado com sucesso",
@@ -247,7 +252,7 @@ app.delete("/alunos/:id", (req, res) => {
 });
 
 // =====================================================
-// EXEMPLO DE ROTA PROTEGIDA
+// ROTA PROTEGIDA
 // =====================================================
 
 app.get("/protegido", autenticar, (req, res) => {
