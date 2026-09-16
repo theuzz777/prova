@@ -67,10 +67,7 @@ const times = [
   { id: 8, nome: "Santos", serie: "A" }
 ];
 
-const alunos = [
-  { id: 1, nome: "Matheus", turma: "3A" },
-  { id: 2, nome: "João", turma: "3B" }
-];
+
 
 // =========================
 // AUTENTICAÇÃO
