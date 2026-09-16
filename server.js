@@ -1,10 +1,97 @@
 import express from "express";
 import "dotenv/config";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 const app = express();
 const port = 3000;
 
+// =========================
+// SWAGGER
+// =========================
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Time de Futebol",
+      version: "1.0.0",
+      description: "API para cadastro de times de futebol"
+    },
+
+    servers: [
+      {
+        url: "http://localhost:3000",
+        description: "Servidor local"
+      }
+    ],
+
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "TOKEN_SECRETO",
+          description: "Informe o token no formato: Bearer TOKEN"
+        }
+      },
+
+      schemas: {
+        Time: {
+          type: "object",
+          properties: {
+            id: {
+              type: "integer",
+              example: 1
+            },
+            nome: {
+              type: "string",
+              example: "Corinthians"
+            },
+            serie: {
+              type: "string",
+              example: "A"
+            }
+          }
+        },
+
+        Aluno: {
+          type: "object",
+          properties: {
+            id: {
+              type: "integer",
+              example: 1
+            },
+            nome: {
+              type: "string",
+              example: "Matheus"
+            },
+            turma: {
+              type: "string",
+              example: "3A"
+            }
+          }
+        }
+      }
+    }
+  },
+
+  apis: ["./server.js"]
+};
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+// =========================
+// CONFIGURAÇÕES
+// =========================
+
 app.use(express.json());
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
 
 // =========================
 // DADOS
@@ -21,10 +108,7 @@ const times = [
   { id: 8, nome: "Santos", serie: "A" }
 ];
 
-const alunos = [
-  { id: 1, nome: "Matheus", turma: "3A" },
-  { id: 2, nome: "João", turma: "3B" }
-];
+
 
 // =========================
 // AUTENTICAÇÃO
@@ -65,12 +149,12 @@ app.get("/", (req, res) => {
 // TIMES
 // =====================================================
 
-// GET - listar todos os times
+// GET - listar todos
 app.get("/times", (req, res) => {
   res.json(times);
 });
 
-// GET - buscar time pelo ID
+// GET - buscar por ID
 app.get("/times/:id", (req, res) => {
   const id = Number(req.params.id);
 
@@ -85,8 +169,8 @@ app.get("/times/:id", (req, res) => {
   res.json(time);
 });
 
-// POST - cadastrar novo time
-app.post("/times", (req, res) => {
+// POST - cadastrar time
+app.post("/times", autenticar, (req, res) => {
   const { nome, serie } = req.body;
 
   if (!nome || !serie) {
@@ -96,7 +180,9 @@ app.post("/times", (req, res) => {
   }
 
   const novoTime = {
-    id: times.length > 0 ? times[times.length - 1].id + 1 : 1,
+    id: times.length > 0
+      ? times[times.length - 1].id + 1
+      : 1,
     nome,
     serie
   };
@@ -110,8 +196,9 @@ app.post("/times", (req, res) => {
 });
 
 // PUT - atualizar time
-app.put("/times/:id", (req, res) => {
+app.put("/times/:id", autenticar, (req, res) => {
   const id = Number(req.params.id);
+
   const { nome, serie } = req.body;
 
   const time = times.find((time) => time.id === id);
@@ -138,10 +225,12 @@ app.put("/times/:id", (req, res) => {
 });
 
 // DELETE - excluir time
-app.delete("/times/:id", (req, res) => {
+app.delete("/times/:id", autenticar, (req, res) => {
   const id = Number(req.params.id);
 
-  const timeIndex = times.findIndex((time) => time.id === id);
+  const timeIndex = times.findIndex(
+    (time) => time.id === id
+  );
 
   if (timeIndex === -1) {
     return res.status(404).json({
@@ -165,11 +254,13 @@ app.get("/alunos", (req, res) => {
   res.json(alunos);
 });
 
-// GET - buscar aluno pelo ID
+// GET - buscar aluno
 app.get("/alunos/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const aluno = alunos.find((aluno) => aluno.id === id);
+  const aluno = alunos.find(
+    (aluno) => aluno.id === id
+  );
 
   if (!aluno) {
     return res.status(404).json({
@@ -191,7 +282,9 @@ app.post("/alunos", (req, res) => {
   }
 
   const novoAluno = {
-    id: alunos.length > 0 ? alunos[alunos.length - 1].id + 1 : 1,
+    id: alunos.length > 0
+      ? alunos[alunos.length - 1].id + 1
+      : 1,
     nome,
     turma
   };
@@ -207,9 +300,12 @@ app.post("/alunos", (req, res) => {
 // PUT - atualizar aluno
 app.put("/alunos/:id", (req, res) => {
   const id = Number(req.params.id);
+
   const { nome, turma } = req.body;
 
-  const aluno = alunos.find((aluno) => aluno.id === id);
+  const aluno = alunos.find(
+    (aluno) => aluno.id === id
+  );
 
   if (!aluno) {
     return res.status(404).json({
@@ -236,7 +332,9 @@ app.put("/alunos/:id", (req, res) => {
 app.delete("/alunos/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const alunoIndex = alunos.findIndex((aluno) => aluno.id === id);
+  const alunoIndex = alunos.findIndex(
+    (aluno) => aluno.id === id
+  );
 
   if (alunoIndex === -1) {
     return res.status(404).json({
@@ -266,5 +364,7 @@ app.get("/protegido", autenticar, (req, res) => {
 // =====================================================
 
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+  console.log(
+    `Servidor rodando em http://localhost:${port}`
+  );
 });
