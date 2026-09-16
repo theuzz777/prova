@@ -6,15 +6,15 @@ const port = 3000;
 
 app.use(express.json());
 
-const alunos = [
-  { id: 1, nome: "Augusto", turma: "2TIB" },
-  { id: 2, nome: "Gustavo", turma: "2TIB" },
-  { id: 3, nome: "Rayssa", turma: "2TIB" },
-  { id: 4, nome: "Amanda", turma: "2TIB" },
-  { id: 5, nome: "Marcos", turma: "2TIB" },
-  { id: 6, nome: "Michelly", turma: "2TIB" },
-  { id: 7, nome: "Maria Fernanda", turma: "2TIB" },
-  { id: 8, nome: "Fellype", turma: "2TIB" }
+const Times = [
+  { id: 1, nome: "Corinthians ", série: "A" },
+  { id: 2, nome: "Palmeiras", série: "A" },
+  { id: 3, nome: "Flamengo ",série: "A" },
+  { id: 4, nome: "Vasco", série: "A" },
+  { id: 5, nome: "Botafogo", série: "A" },
+  { id: 6, nome: "São Paulo", série: "A" },
+  { id: 7, nome: "Grêmio", série: "A" },
+  { id: 8, nome: "Santos", série: "A" }
 ];
 
 function autenticar(req, res, next) {
@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/alunos", autenticar, (req, res) => {
+app.get("/alunos", (req, res) => {
   res.json(alunos);
 });
 
@@ -56,7 +56,7 @@ app.get("/alunos/:id", (req, res) => {
   res.json(aluno);
 });
 
-app.post("/alunos", autenticar, (req, res) => {
+app.post("/alunos", (req, res) => {
   const novoAluno = {
     id: alunos.length + 1,
     nome: req.body.nome,
@@ -71,7 +71,7 @@ app.post("/alunos", autenticar, (req, res) => {
   });
 });
 
-app.patch("/alunos/:id", autenticar, (req, res) => {
+app.patch("/alunos/:id", (req, res) => {
   const id = Number(req.params.id);
   const { nome, turma } = req.body;
 
@@ -94,7 +94,7 @@ app.patch("/alunos/:id", autenticar, (req, res) => {
   res.json(aluno);
 });
 
-app.delete("/alunos/:id", autenticar, (req, res) => {
+app.delete("/alunos/:id", (req, res) => {
   const id = Number(req.params.id);
 
   const alunoIndex = alunos.findIndex((aluno) => aluno.id === id);
