@@ -1,0 +1,145 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: prova
+meta:
+  id: wrk_7576115099ec4429b8d814b3c8c05335
+  created: 1789566760607
+  modified: 1789566760607
+  description: ""
+collection:
+  - url: http://localhost:3000/times/9
+    name: get times id
+    meta:
+      id: req_f857e07553b949e485ddffd3e5ddf54a
+      created: 1789566767407
+      modified: 1789570105115
+      isPrivate: false
+      description: ""
+      sortKey: -1789567349089
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/times
+    name: ost
+    meta:
+      id: req_73991708049f4d138aab4e0a4fb87169
+      created: 1789566772667
+      modified: 1789570078058
+      isPrivate: false
+      description: ""
+      sortKey: -1789566772667
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"nome": "olimpia",
+        		"serie": "A"
+        	}
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "1234"
+      prefix: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/times/2
+    name: delete
+    meta:
+      id: req_ea86d7f0965042ce84e311a0c37fc268
+      created: 1789567845866
+      modified: 1789570244174
+      isPrivate: false
+      description: ""
+      sortKey: -1789566767207
+    method: DELETE
+    authentication:
+      type: bearer
+      token: "1234"
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/times
+    name: get times
+    meta:
+      id: req_0c6f9db0953147b4a1f18b344015caeb
+      created: 1789567925511
+      modified: 1789568088944
+      isPrivate: false
+      description: ""
+      sortKey: -1789567925511
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/times/2
+    name: put
+    meta:
+      id: req_bb14b1f3d506438189d448a2c611506e
+      created: 1789567934631
+      modified: 1789570133887
+      isPrivate: false
+      description: ""
+      sortKey: -1789566767307
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"nome": "Olimpia",
+        	"serie": "A"
+        	}
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_8544b0fe004a2a89a6ba65bc8c50b119fde1af35
+    created: 1789566760608
+    modified: 1789566760608
+environments:
+  name: Base Environment
+  meta:
+    id: env_8544b0fe004a2a89a6ba65bc8c50b119fde1af35
+    created: 1789566760608
+    modified: 1789566760608
+    isPrivate: false
