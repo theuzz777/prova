@@ -201,7 +201,7 @@ app.post("/alunos", (req, res) => {
 });
 
 // PATCH - atualizar aluno
-app.patch("/alunos/:id", (req, res) => {
+app.put("/alunos/:id", (req, res) => {
   const id = Number(req.params.id);
   const { nome, turma } = req.body;
 
