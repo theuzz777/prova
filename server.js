@@ -86,7 +86,9 @@ function autenticar(req, res, next) {
     });
   }
 
-  if (authHeader !== `Bearer ${tokenSecreto}`) {
+  const [tipo, tokenRecebido] = (authHeader || "").split(" ");
+
+  if (tipo !== "Bearer" || tokenRecebido !== tokenSecreto) {
     return res.status(401).json({
       erro: "Acesso não autorizado. Token ausente ou inválido"
     });
