@@ -98,13 +98,7 @@ function autenticar(req, res, next) {
 // ROTA PRINCIPAL
 // =========================
 
-app.get("/", (req, res) => {
-  res.json({
-    mensagem: "Servidor Express funcionando!",
-    disciplina: "Desenvolvimento de Websites",
-    bimestre: "3º bimestre"
-  });
-});
+
 
 // =====================================================
 // TIMES
@@ -373,96 +367,6 @@ app.delete("/times/:id", autenticar, (req, res) => {
 // ALUNOS
 // =====================================================
 
-// GET - listar alunos
-app.get("/alunos", (req, res) => {
-  res.json(alunos);
-});
-
-// GET - buscar aluno pelo ID
-app.get("/alunos/:id", (req, res) => {
-  const id = Number(req.params.id);
-
-  const aluno = alunos.find((aluno) => aluno.id === id);
-
-  if (!aluno) {
-    return res.status(404).json({
-      mensagem: "Aluno não encontrado"
-    });
-  }
-
-  res.json(aluno);
-});
-
-// POST - cadastrar aluno
-app.post("/alunos", (req, res) => {
-  const { nome, turma } = req.body;
-
-  if (!nome || !turma) {
-    return res.status(400).json({
-      erro: "Nome e turma são obrigatórios"
-    });
-  }
-
-  const novoAluno = {
-    id: alunos.length > 0 ? alunos[alunos.length - 1].id + 1 : 1,
-    nome,
-    turma
-  };
-
-  alunos.push(novoAluno);
-
-  res.status(201).json({
-    mensagem: "Aluno cadastrado com sucesso",
-    aluno: novoAluno
-  });
-});
-
-// PUT - atualizar aluno
-app.put("/alunos/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const { nome, turma } = req.body;
-
-  const aluno = alunos.find((aluno) => aluno.id === id);
-
-  if (!aluno) {
-    return res.status(404).json({
-      mensagem: "Aluno não encontrado"
-    });
-  }
-
-  if (!nome || !turma) {
-    return res.status(400).json({
-      erro: "Nome e turma são obrigatórios"
-    });
-  }
-
-  aluno.nome = nome;
-  aluno.turma = turma;
-
-  res.json({
-    mensagem: "Aluno atualizado com sucesso",
-    aluno
-  });
-});
-
-// DELETE - excluir aluno
-app.delete("/alunos/:id", (req, res) => {
-  const id = Number(req.params.id);
-
-  const alunoIndex = alunos.findIndex((aluno) => aluno.id === id);
-
-  if (alunoIndex === -1) {
-    return res.status(404).json({
-      mensagem: "Aluno não encontrado"
-    });
-  }
-
-  alunos.splice(alunoIndex, 1);
-
-  res.json({
-    mensagem: "Aluno removido com sucesso"
-  });
-});
 
 // =====================================================
 // ROTA PROTEGIDA
