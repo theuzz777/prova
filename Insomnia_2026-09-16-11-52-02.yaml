@@ -53,7 +53,7 @@ collection:
         value: application/json
     authentication:
       type: bearer
-      token: "1234"
+      token: "{{ _.TOKEN_SECRETO }}"
       prefix: ""
     settings:
       renderRequestBody: true
@@ -75,7 +75,7 @@ collection:
     method: DELETE
     authentication:
       type: bearer
-      token: "1234"
+      token: "{{ _.TOKEN_SECRETO }}"
     settings:
       renderRequestBody: true
       encodeUrl: true
@@ -143,3 +143,5 @@ environments:
     created: 1789566760608
     modified: 1789566760608
     isPrivate: false
+  data:
+    TOKEN_SECRETO: "123"
