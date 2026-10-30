@@ -16,4 +16,17 @@ model Times {
   id    Int    @id @default(autoincrement())
   nome  String @db.VarChar(100)
   serie String @map("times") @db.VarChar(20)
+
 }
+
+model Usuario{
+  id String @id @default(uuid()) @db.VarChar(36) 
+ nome String @db.VarChar(100) 
+ email String @unique @db.VarChar(191) 
+ senhaHash String @db.VarChar(255) 
+ created DateTime @default(now()) 
+ updated DateTime @updatedAt 
+
+ @@map("usuarios")
+}
+
